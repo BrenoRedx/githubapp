@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React from 'react';
+//import axios from 'axios';
 //import { render } from '@testing-library/react';
+import './App.css';
+import 'semantic-ui-css/semantic.min.css';
+import FormExampleForm from './Component/Search.js';
 
-const api = {
+/*const api = {
   baseUrl : "https://api.github.com",
-  client_id : "Iv1.72b2c1dd023adf3b",
-  client_secret : "4d9e85a5359dcd4a9757023d8a2870e1262ea7a1" 
+  user: prompt("Digite o nome do usuário no github")
 };
 
 class App extends Component {  
@@ -18,14 +20,24 @@ class App extends Component {
 
 componentDidMount() {
   axios
-    .get(api.baseUrl+"/search/repositories?q=language:Java&sort=stars&page=1&"+api.client_id+"&"+api.client_secret)
+    .get(api.baseUrl+"/users/"+api.user+"/repos") 
     .then((res) => {
-      console.log("Infos da API" + res);
-      this.setState({githubData: res.data.items});
+      console.log("Infos da API" , res.name);
+      this.setState({githubData: res.name});
     })
   }
+
 render() {
-  return <div className="App"></div>
-  }
-}
+  const { githubData } = this.state;
+*/
+function App () {
+
+
+  return (
+    <div>
+    <div className="navbar">Barra de pesquisa</div>
+    <div className="Pesquisa"><FormExampleForm /></div>
+    </div>
+  )
+}  
 export default App;
