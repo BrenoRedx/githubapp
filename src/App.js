@@ -3,7 +3,7 @@ import React from 'react';
 //import { render } from '@testing-library/react';
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
-import FormExampleForm from './Component/Search.js';
+import FormExampleForm from './Search.js';
 
 /*const api = {
   baseUrl : "https://api.github.com",
