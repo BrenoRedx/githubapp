@@ -1,7 +1,23 @@
 .navbar{
-    padding: 40px;
-    background-color: goldenrod;
+    padding: 30px;
+    background-color: rgb(13,17,23);
+    font-size: 30px;
+    font-family: 'Times New Roman', Times, serif;
+    text-align: center;
+    color:ghostwhite;
 }
 .Pesquisa{
+    padding: 20px;
+    justify-content: center;
+    display:flex;
+    background-color: #1e1e1f;
+}
+.card{
     padding: 40px;
+    justify-content: center;
+    display:flex;
+}
+.teste{
+    padding: 20px;
+    text-align: center;
 }
