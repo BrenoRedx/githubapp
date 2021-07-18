@@ -1,101 +1,125 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import { Form, Card, Icon, Image } from 'semantic-ui-react';
+import {Form,Button, Segment} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
-
+  
 function App () {
-  
-  const [name, setName] = useState('');
-  const [userName, setUsername] = useState('');
-  const [followers, setFollowers] = useState('');
-  const [following, setFollowing] = useState('');
-  const [repos, setRepos] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [userInput, setUserInput] = useState('');
-  const [error, setError] = useState('');
-  
-  useEffect(() => {
-    fetch('https://api.github.com/users/BrenoRedx')
-      .then(res => res.json())
-      .then(data => {
-        setData(data)
-      });
-  }, []);
 
-  const setData = ({
-    name,
-    login,
-    followers,
-    following,
-    public_repos,
-    avatar_url
-    }) => {
-      setName(name);
-      setUsername(login);
-      setFollowers(followers);
-      setFollowing(following);
-      setRepos(public_repos);
-      setAvatar(avatar_url);
-  }
-  
-  const pesquisa = (e) => {
-    setUserInput(e.target.value)
+const [pokemon, setPokemon] = useState(null);
+
+const fetchPokemon = () => {
+
+  const getpokemonurl = id =>`https://pokeapi.co/api/v2/pokemon/${id}`
+  const pokemonPromises = []
+
+for (let i=1; i<= 150; i++) {
+  pokemonPromises.push(fetch(getpokemonurl(i)).then(response => response.json()))
   }
 
-  const enviar = () => {
-    fetch(`https://api.github.com/users/${userInput}`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.message) {
-        setError(data.message)
-      }else{
-        setData(data);
-        setError(null);
-      }
-    });
-  };
+  Promise.all(pokemonPromises)
+    .then(pokemons => {
+      const lisPokemons = pokemons.reduce((accumulator, pokemon) => {
+        const types = pokemon.types.map(typeInfo => typeInfo.type.name)
+
+        accumulator += 
+        `
+        <li class="card ${types[0]}">
+          <img class="card-image"  alt="${pokemon.name}" src="https://pokeres.bastionbot.org/images/pokemon/${pokemon.id}.png"/>
+          <h2 class="card-tittle">${pokemon.id}. ${pokemon.name}</h2>
+          <p class="card-subtitle">${pokemon.types.map(typeInfo => typeInfo.type.name).join(' | ')}</p>
+        </li>
+        `
+        return accumulator
+      }, '')
+
+      const ul = document.querySelector('[data-js="pokedex"]')
+
+      ul.innerHTML = lisPokemons
+    })}
+
+    const enviar = async (event) => {
+      const id = event.target.value 
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`)
+      .then(res => {
+        return res.json()
+        }
+    
+      
+      )
+    setPokemon(response)
+    
+    }
+    
+
+    fetchPokemon();
   
+
   return (
+
   <div>
-  <div className="navbar"><b>GitHub Repositórios API</b></div>
-  <div className="Pesquisa">    
-    <Form onSubmit={enviar}>
+        {console.log(pokemon)}
+  <div className="navbar"><b>Pokedex PokeAPI</b></div>
+  <div className="Pesquisa">
+  <Form>
     <Form.Group>
-      <Form.Input placeholder='Nome de usuário' name='github user' onChange={pesquisa} />
+      <Form.Input placeholder='Nome de usuário' name='Pokemon' onChange={enviar} />
       <Form.Button content='Search'/>
     </Form.Group>
     </Form>
   </div>
-  {error ? (<h1 className='teste'>{error}</h1>) : (
-    <div className="card">
-    <Card>
-    <Image src={avatar} wrapped ui={false} />
-    <Card.Content>
-      <Card.Header>{name}</Card.Header>
-      <Card.Header>{userName}</Card.Header>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name='user' />
-        {followers} Seguidores
-      </a>
-    </Card.Content>
-    <Card.Content extra>
-      <a>
-        <Icon name='user' />
-        {following} Seguindo
-      </a>
-    </Card.Content>
-    <Card.Content>
-      <a href="https://github.com/BrenoRedx?tab=repositories">
-        <Icon name='user' />
-        {repos} Repositórios
-      </a>
-    </Card.Content>
-  </Card>
-  </div>)}
+  <div>
+    <Segment inverted>
+      <Button inverted>Normal</Button>
+      <Button inverted color='red'>
+        Fogo
+      </Button>
+      <Button inverted color='orange'>
+        Inseto
+      </Button>
+      <Button inverted color='yellow'>
+        Eletrico
+      </Button>
+      <Button inverted color='olive'>
+        Voador
+      </Button>
+      <Button inverted color='green'>
+        Grama
+      </Button>
+      <Button inverted color='teal'>
+        Dragão
+      </Button>
+      <Button inverted color='blue'>
+        Água
+      </Button>
+      <Button inverted color='blue'>
+        Gelo
+      </Button>
+      <Button inverted color='violet'>
+        Psíquico
+      </Button>
+      <Button inverted color='violet'>
+        Fantasma
+      </Button>
+      <Button inverted color='purple'>
+        Venenoso
+      </Button>
+      <Button inverted color='pink'>
+        Fada
+      </Button>
+      <Button inverted color='brown'>
+        Terra
+      </Button>
+      <Button inverted color='grey'>
+        Ferro
+      </Button>
+      <Button inverted color='black'>
+        Trevas
+      </Button>
+    </Segment>
+    </div>
+  <ul data-js="pokedex" class="pokedex"></ul>
   </div>
   )
-};
-
+  };
 export default App;
+
