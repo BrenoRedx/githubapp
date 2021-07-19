@@ -55,3 +55,45 @@ function App () {
     });
   };
 
+  return (
+  <div>
+  <div className="navbar"><b>GitHub Repositórios API</b></div>
+  <div className="Pesquisa">    
+    <Form onSubmit={enviar}>
+    <Form.Group>
+      <Form.Input placeholder='Nome de usuário' name='github user' onChange={pesquisa} />
+      <Form.Button content='Search'/>
+    </Form.Group>
+    </Form>
+  </div>
+  {error ? (<h1 className='teste'>{error}</h1>) : (
+    <div className="card">
+    <Card>
+    <Image src={avatar} wrapped ui={false} />
+    <Card.Content>
+      <Card.Header>{name}</Card.Header>
+      <Card.Header>{userName}</Card.Header>
+    </Card.Content>
+    <Card.Content extra>
+      <a>
+        <Icon name='user' />
+        {followers} Seguidores
+      </a>
+    </Card.Content>
+    <Card.Content extra>
+      <a>
+        <Icon name='user' />
+        {following} Seguindo
+      </a>
+    </Card.Content>
+    <Card.Content>
+      <a href="https://github.com/BrenoRedx?tab=repositories">
+        <Icon name='user' />
+        {repos} Repositórios
+      </a>
+    </Card.Content>
+  </Card>
+  </div>)}
+  </div>
+  )
+};
